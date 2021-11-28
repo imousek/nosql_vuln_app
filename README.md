@@ -1,7 +1,7 @@
 # nosql_vuln_app
 Lab for testing injection vulnerability in mongodb
 
-## INSTALL GUIDE
+## Install
 Tested on:  
 - Kali 2021.3
 - MongoDB 4.2.17
