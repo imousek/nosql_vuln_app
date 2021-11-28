@@ -10,7 +10,7 @@
 
 	<form method="GET">
 		<label for="username">Enter a username: </label><input type="text" id="username" name="username" value="" />
-		<input type="submit" value="Guess" />
+		<input type="submit" />
 	</form>
 
 <?php
@@ -20,17 +20,16 @@
 	if (array_key_exists ("username", $_GET)) {
 
 		$username = $_GET['username'];
+		#$username = filter_var($_GET['username'], FILTER_SANITIZE_STRING);   
+		#$username = htmlspecialchars($_GET['username'], ENT_QUOTES); 
 
 		$client = new MongoDB\Client("mongodb://localhost:27017");
 		$collection = $client->db->users;
-	#	$query = 'function() {return this.username=="robo" || db.users.drop()}';	
-		$query = 'function() {return this.username=='.$username.'}';
-		echo $query;
-		$result = $collection->find(array('$where' => $query));
-		$res = $result->toArray();
-		if($res != null){
-			var_dump($res);
-			#echo $result["password"];
+		$query = array('$where' => 'this.username === \''.$username.'\'');	
+		var_dump($query);
+		$res = $collection->find($query);
+		foreach ($res as $doc) {
+    			var_dump($doc);
 		}
 	}
 	?>

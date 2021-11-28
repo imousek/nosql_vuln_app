@@ -21,18 +21,24 @@
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 
-		try {
-		$client = new MongoDB\Client("mongodb://localhost:27017");
-		$collection = $client->db->users;
-		$query = array("username"=>$username, "password"=>$password);
-		$result = $collection->findOne($query);
+	#	$username = filter_var($_POST['username'], FILTER_SANITIZE_STRING); 
+	#	$password = filter_var($_POST['password'], FILTER_SANITIZE_STRING); 
 
-		if($result != null) {
-			echo $result["username"];
-			if($result["type"] == "admin") {
-				echo "\nVitaj admin\n";
-			}
-		}	
+                #$username = htmlspecialchars($_GET['username'], ENT_QUOTES);
+                #$password = htmlspecialchars($_GET['password'], ENT_QUOTES);
+		
+		try {
+			$client = new MongoDB\Client("mongodb://localhost:27017");
+			$collection = $client->db->users;
+			$query = array("username"=>$username, "password"=>$password);
+			$result = $collection->findOne($query);
+
+			if($result != null) {
+				echo $result["username"];
+				if($result["type"] == "admin") {
+					echo "\nVitaj admin\n";
+				}	
+			}	
 		} catch (Exception $e) {}	
 	}
 
